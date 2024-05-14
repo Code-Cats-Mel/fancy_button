@@ -1,5 +1,6 @@
-import 'package:fancy_button/fancy_button.dart';
 import 'package:flutter/material.dart';
+
+import 'fancy_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,9 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            FancyButton(
-              onPressed: _incrementCounter,
-              label: 'Increment',
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: FancyButton(
+                titleText: 'Increment',
+                subtitleText: 'Increment the counter',
+                onTap: _incrementCounter,
+              ),
             ),
           ],
         ),
