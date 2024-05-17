@@ -2,39 +2,34 @@ library fancy_button;
 
 import 'package:flutter/material.dart';
 
-class FancyButton extends StatelessWidget {
-  final GestureTapCallback? onPressed;
-  final String label;
+import 'gradient_background_view.dart';
 
-  FancyButton({this.onPressed, required this.label});
+class FancyButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String titleText;
+  final String? subtitleText;
+  final Widget? icon;
+
+  final BorderRadius borderRadius;
+
+  const FancyButton(
+    this.titleText, {
+    super.key,
+    this.onTap,
+    this.subtitleText,
+    this.icon,
+    this.borderRadius = const BorderRadius.all(Radius.circular(6)),
+  });
 
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-      fillColor: Colors.deepOrange,
-      splashColor: Colors.orange,
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Text(
-              label,
-              maxLines: 1,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-      onPressed: onPressed,
-      shape: const StadiumBorder(),
+    return Stack(
+      children: [
+        GradientBackgroundView({
+          0.0: const Color(0xFFFF3D00),
+          1.0: const Color(0xFFFF00F5),
+        }, borderRadius: borderRadius),
+      ],
     );
   }
 }

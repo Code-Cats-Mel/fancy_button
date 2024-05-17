@@ -5,11 +5,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 
 /// An immutable description of how to paint a box.
 ///
-/// The [BoxDecoration] class provides a variety of ways to draw a box.
+/// The [BoxDecorationRe] class provides a variety of ways to draw a box.
 ///
 /// The box has a [border], a body, and may cast a [boxShadow].
 ///
@@ -25,7 +25,7 @@ import 'package:flutter/painting.dart';
 ///
 /// {@tool snippet}
 ///
-/// The following applies a [BoxDecoration] to a [Container] widget to draw an
+/// The following applies a [BoxDecorationRe] to a [Container] widget to draw an
 /// [image] of an owl with a thick black [border] and rounded corners.
 ///
 /// ![](https://flutter.github.io/assets-for-api-docs/assets/painting/box_decoration.png)
@@ -57,12 +57,12 @@ import 'package:flutter/painting.dart';
 /// See also:
 ///
 ///  * [DecoratedBox] and [Container], widgets that can be configured with
-///    [BoxDecoration] objects.
-///  * [DecoratedSliver], a widget that can be configured with a [BoxDecoration]
+///    [BoxDecorationRe] objects.
+///  * [DecoratedSliver], a widget that can be configured with a [BoxDecorationRe]
 ///   that is converted to render with slivers.
 ///  * [CustomPaint], a widget that lets you draw arbitrary graphics.
 ///  * [Decoration], the base class which lets you define other decorations.
-class BoxDecoration extends Decoration {
+class BoxDecorationRe extends Decoration {
   /// Creates a box decoration.
   ///
   /// * If [color] is null, this decoration does not paint a background color.
@@ -74,7 +74,7 @@ class BoxDecoration extends Decoration {
   /// * If [boxShadow] is null, this decoration does not paint a shadow.
   /// * If [gradient] is null, this decoration does not paint gradients.
   /// * If [backgroundBlendMode] is null, this decoration paints with [BlendMode.srcOver]
-  const BoxDecoration({
+  const BoxDecorationRe({
     this.color,
     this.image,
     this.border,
@@ -91,7 +91,7 @@ class BoxDecoration extends Decoration {
 
   /// Creates a copy of this object but with the given fields replaced with the
   /// new values.
-  BoxDecoration copyWith({
+  BoxDecorationRe copyWith({
     Color? color,
     DecorationImage? image,
     BoxBorder? border,
@@ -101,7 +101,7 @@ class BoxDecoration extends Decoration {
     BlendMode? backgroundBlendMode,
     BoxShape? shape,
   }) {
-    return BoxDecoration(
+    return BoxDecorationRe(
       color: color ?? this.color,
       image: image ?? this.image,
       border: border ?? this.border,
@@ -188,7 +188,7 @@ class BoxDecoration extends Decoration {
   ///
   /// If this is [BoxShape.circle] then [borderRadius] is ignored.
   ///
-  /// The [shape] cannot be interpolated; animating between two [BoxDecoration]s
+  /// The [shape] cannot be interpolated; animating between two [BoxDecorationRe]s
   /// with different [shape]s will result in a discontinuity in the rendering.
   /// To interpolate between two shapes, consider using [ShapeDecoration] and
   /// different [ShapeBorder]s; in particular, [CircleBorder] instead of
@@ -219,8 +219,8 @@ class BoxDecoration extends Decoration {
   }
 
   /// Returns a new box decoration that is scaled by the given factor.
-  BoxDecoration scale(double factor) {
-    return BoxDecoration(
+  BoxDecorationRe scale(double factor) {
+    return BoxDecorationRe(
       color: Color.lerp(null, color, factor),
       image: DecorationImage.lerp(null, image, factor),
       border: BoxBorder.lerp(null, border, factor),
@@ -235,25 +235,25 @@ class BoxDecoration extends Decoration {
   bool get isComplex => boxShadow != null;
 
   @override
-  BoxDecoration? lerpFrom(Decoration? a, double t) {
+  BoxDecorationRe? lerpFrom(Decoration? a, double t) {
     if (a == null) {
       return scale(t);
     }
-    if (a is BoxDecoration) {
-      return BoxDecoration.lerp(a, this, t);
+    if (a is BoxDecorationRe) {
+      return BoxDecorationRe.lerp(a, this, t);
     }
-    return super.lerpFrom(a, t) as BoxDecoration?;
+    return super.lerpFrom(a, t) as BoxDecorationRe?;
   }
 
   @override
-  BoxDecoration? lerpTo(Decoration? b, double t) {
+  BoxDecorationRe? lerpTo(Decoration? b, double t) {
     if (b == null) {
       return scale(1.0 - t);
     }
-    if (b is BoxDecoration) {
-      return BoxDecoration.lerp(this, b, t);
+    if (b is BoxDecorationRe) {
+      return BoxDecorationRe.lerp(this, b, t);
     }
-    return super.lerpTo(b, t) as BoxDecoration?;
+    return super.lerpTo(b, t) as BoxDecorationRe?;
   }
 
   /// Linearly interpolate between two box decorations.
@@ -275,11 +275,12 @@ class BoxDecoration extends Decoration {
   /// See also:
   ///
   ///  * [Decoration.lerp], which can interpolate between any two types of
-  ///    [Decoration]s, not just [BoxDecoration]s.
+  ///    [Decoration]s, not just [BoxDecorationRe]s.
   ///  * [lerpFrom] and [lerpTo], which are used to implement [Decoration.lerp]
-  ///    and which use [BoxDecoration.lerp] when interpolating two
-  ///    [BoxDecoration]s or a [BoxDecoration] to or from null.
-  static BoxDecoration? lerp(BoxDecoration? a, BoxDecoration? b, double t) {
+  ///    and which use [BoxDecorationRe.lerp] when interpolating two
+  ///    [BoxDecorationRe]s or a [BoxDecorationRe] to or from null.
+  static BoxDecorationRe? lerp(
+      BoxDecorationRe? a, BoxDecorationRe? b, double t) {
     if (identical(a, b)) {
       return a;
     }
@@ -295,7 +296,7 @@ class BoxDecoration extends Decoration {
     if (t == 1.0) {
       return b;
     }
-    return BoxDecoration(
+    return BoxDecorationRe(
       color: Color.lerp(a.color, b.color, t),
       image: DecorationImage.lerp(a.image, b.image, t),
       border: BoxBorder.lerp(a.border, b.border, t),
@@ -315,7 +316,7 @@ class BoxDecoration extends Decoration {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is BoxDecoration &&
+    return other is BoxDecorationRe &&
         other.color == color &&
         other.image == image &&
         other.border == border &&
@@ -387,11 +388,11 @@ class BoxDecoration extends Decoration {
   }
 }
 
-/// An object that paints a [BoxDecoration] into a canvas.
+/// An object that paints a [BoxDecorationRe] into a canvas.
 class _BoxDecorationPainter extends BoxPainter {
   _BoxDecorationPainter(this._decoration, super.onChanged);
 
-  final BoxDecoration _decoration;
+  final BoxDecorationRe _decoration;
 
   Paint? _cachedBackgroundPaint;
   Rect? _rectForCachedBackgroundPaint;
@@ -445,10 +446,18 @@ class _BoxDecorationPainter extends BoxPainter {
       return;
     }
     for (final BoxShadow boxShadow in _decoration.boxShadow!) {
-      final Paint paint = boxShadow.toPaint();
       final Rect bounds =
           rect.shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
-      _paintBox(canvas, bounds, paint, textDirection);
+
+      // This is a workaround for the fact that BoxShadow.toPaint() does not
+      // respect the bounds of the shadow. This is a temporary solution
+      if (boxShadow is GradientBoxShadow) {
+        final Paint paint = boxShadow.toPaintWithRect(bounds);
+        _paintBox(canvas, bounds, paint, textDirection);
+      } else {
+        final Paint paint = boxShadow.toPaint();
+        _paintBox(canvas, bounds, paint, textDirection);
+      }
     }
   }
 
@@ -513,5 +522,33 @@ class _BoxDecorationPainter extends BoxPainter {
   @override
   String toString() {
     return 'BoxPainter for $_decoration';
+  }
+}
+
+class GradientBoxShadow extends BoxShadow {
+  final Gradient gradient;
+
+  const GradientBoxShadow(
+      {required this.gradient,
+      super.offset,
+      super.blurRadius,
+      super.spreadRadius = 0.0})
+      : super(color: Colors.black);
+
+  Paint toPaintWithRect(Rect rect) {
+    final Paint result = Paint()
+      ..shader = gradient.createShader(rect)
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
+    return result;
+  }
+
+  @override
+  BoxShadow scale(double factor) {
+    return GradientBoxShadow(
+      offset: offset * factor,
+      gradient: gradient,
+      blurRadius: blurRadius * factor,
+      spreadRadius: spreadRadius * factor,
+    );
   }
 }
