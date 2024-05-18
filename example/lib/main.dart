@@ -1,6 +1,6 @@
+import 'package:fancy_button/fancy_button.dart';
+import 'package:fancy_button/fancy_button2.dart';
 import 'package:flutter/material.dart';
-
-import 'fancy_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,7 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(32.0),
-              child: FancyButton(
+              child: SizedBox(
+                  height: 64,
+                  child: FancyButton('Increment', onTap: _incrementCounter)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: FancyButton2(
                 titleText: 'Increment',
                 subtitleText: 'Increment the counter',
                 onTap: _incrementCounter,

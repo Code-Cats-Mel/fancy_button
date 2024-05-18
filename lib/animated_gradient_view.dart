@@ -1,12 +1,11 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import 'box_decoration_re.dart';
 
-class GradientBackgroundView extends StatefulWidget {
+class AnimatedGradientView extends StatefulWidget {
   final List<Color> colors;
   final List<double> stops;
+  final double colorsRepeatNumber;
 
   final BorderRadius borderRadius;
 
@@ -16,20 +15,21 @@ class GradientBackgroundView extends StatefulWidget {
   /// The amount the box should be inflated prior to applying the blur.
   final double spreadRadius;
 
-  GradientBackgroundView(
+  AnimatedGradientView(
     Map<double, Color> gradientStops, {
     super.key,
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
-    this.blurRadius = 8.0,
-    this.spreadRadius = 2.0,
+    this.colorsRepeatNumber = 3.0,
+    this.blurRadius = 5.0,
+    this.spreadRadius = 0.0,
   })  : stops = gradientStops.keys.toList(),
         colors = gradientStops.values.toList();
 
   @override
-  State<GradientBackgroundView> createState() => _GradientBackgroundViewState();
+  State<AnimatedGradientView> createState() => _AnimatedGradientViewState();
 }
 
-class _GradientBackgroundViewState extends State<GradientBackgroundView>
+class _AnimatedGradientViewState extends State<AnimatedGradientView>
     with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
@@ -39,10 +39,9 @@ class _GradientBackgroundViewState extends State<GradientBackgroundView>
     super.initState();
 
     _animationController =
-        AnimationController(duration: const Duration(seconds: 5), vsync: this);
+        AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
-    _animation =
-        Tween<double>(begin: 0, end: math.pi * 2).animate(CurvedAnimation(
+    _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.linear,
     ));
@@ -51,7 +50,7 @@ class _GradientBackgroundViewState extends State<GradientBackgroundView>
 
     _animationController.addListener(() {
       if (_animationController.status == AnimationStatus.completed) {
-        _animationController.repeat();
+        _animationController.reverse();
       } else if (_animationController.status == AnimationStatus.dismissed) {
         _animationController.forward();
       }
@@ -75,15 +74,29 @@ class _GradientBackgroundViewState extends State<GradientBackgroundView>
             GradientBoxShadow(
               blurRadius: widget.blurRadius,
               spreadRadius: widget.spreadRadius,
+              scaleX: widget.colorsRepeatNumber,
               gradient: LinearGradient(
                 colors: widget.colors,
                 stops: widget.stops,
-                transform: GradientRotation(_animation.value),
+                // transform: GradientOffX(0),
+                transform: GradientOffX(
+                    _animation.value * (1.0 - 1 / widget.colorsRepeatNumber)),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class GradientOffX extends GradientTransform {
+  final double offX;
+
+  const GradientOffX(this.offX);
+
+  @override
+  Matrix4 transform(Rect bounds, {TextDirection? textDirection}) {
+    return Matrix4.translationValues(-bounds.width * offX, 0, 0);
   }
 }

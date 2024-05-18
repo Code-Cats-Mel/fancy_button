@@ -527,17 +527,22 @@ class _BoxDecorationPainter extends BoxPainter {
 
 class GradientBoxShadow extends BoxShadow {
   final Gradient gradient;
+  final double scaleX;
+  final double scaleY;
 
-  const GradientBoxShadow(
-      {required this.gradient,
-      super.offset,
-      super.blurRadius,
-      super.spreadRadius = 0.0})
-      : super(color: Colors.black);
+  const GradientBoxShadow({
+    required this.gradient,
+    super.offset,
+    super.blurRadius,
+    super.spreadRadius = 0.0,
+    this.scaleX = 1.0,
+    this.scaleY = 1.0,
+  }) : super(color: Colors.black);
 
   Paint toPaintWithRect(Rect rect) {
     final Paint result = Paint()
-      ..shader = gradient.createShader(rect)
+      ..shader = gradient.createShader(Rect.fromLTWH(
+          rect.left, rect.top, rect.width * scaleX, rect.height * scaleY))
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
     return result;
   }
