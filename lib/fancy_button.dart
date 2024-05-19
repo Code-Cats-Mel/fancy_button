@@ -37,22 +37,14 @@ class _FancyButtonState extends State<FancyButton>
     super.initState();
 
     _animationController =
-        AnimationController(duration: const Duration(seconds: 5), vsync: this);
+        AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
     _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.linear,
     ));
 
-    _animationController.forward();
-
-    _animationController.addListener(() {
-      if (_animationController.status == AnimationStatus.completed) {
-        _animationController.repeat();
-      } else if (_animationController.status == AnimationStatus.dismissed) {
-        _animationController.forward();
-      }
-    });
+    _animationController.repeat(reverse: true);
   }
 
   @override
@@ -96,15 +88,80 @@ class _FancyButtonState extends State<FancyButton>
                   borderRadius: widget.borderRadius,
                   blurRadius: 8,
                   spreadRadius: 2,
-                  rotation: _animation.value * 3.14 * 2,
+                  gradientRotation: _animation.value * 3.14 * 2,
                   gradientStops: {
-                    // 0.0: const Color(0xFF000000),
-                    // 1.0: const Color(0xFFFF0000),
                     0.0: const Color(0xFFFF3D00),
                     1.0: const Color(0xFFFF00F5),
                   },
                 );
               }),
+        if (true)
+          AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return LinearGradientView(
+                  borderRadius: widget.borderRadius,
+                  gradientScaleX: 14,
+                  gradientOffsetX: (_animation.value) * (1.0 - 1 / 14.0),
+                  gradientStops: {
+                    0.0 / 7.0: const Color(0xFFFFB404),
+                    1.0 / 7.0: const Color(0xFFFFDF80),
+                    2.0 / 7.0: const Color(0xFFFF7E7F),
+                    3.0 / 7.0: const Color(0xFFC728FF),
+                    4.0 / 7.0: const Color(0xFFF872DC),
+                    5.0 / 7.0: const Color(0xFFFFDF80),
+                    6.0 / 7.0: const Color(0xFFFFB508),
+                  },
+                );
+              }),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              if (widget.icon != null)
+                SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: widget.icon,
+                ),
+              ShaderMask(
+                shaderCallback: (rect) => const LinearGradient(
+                  colors: [
+                    Color(0xFFFF0000),
+                    Color(0xFF0000F5),
+                  ],
+                ).createShader(rect),
+                blendMode: BlendMode.srcATop,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.titleText != null)
+                      Text(
+                        widget.titleText!,
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          height: 1.0,
+                        ),
+                      ),
+                    if (widget.subtitleText != null)
+                      Text(
+                        widget.subtitleText!,
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          height: 1.0,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
