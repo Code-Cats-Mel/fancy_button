@@ -9,19 +9,15 @@ class GradientBackgroundView extends StatefulWidget {
   final List<double> stops;
 
   final BorderRadius borderRadius;
-
-  /// The standard deviation of the Gaussian to convolve with the shadow's shape.
   final double blurRadius;
-
-  /// The amount the box should be inflated prior to applying the blur.
   final double spreadRadius;
 
   GradientBackgroundView(
     Map<double, Color> gradientStops, {
     super.key,
-    this.borderRadius = const BorderRadius.all(Radius.circular(6)),
-    this.blurRadius = 8.0,
-    this.spreadRadius = 2.0,
+    this.borderRadius = const BorderRadius.all(Radius.circular(0)),
+    this.blurRadius = 0.0,
+    this.spreadRadius = 0,
   })  : stops = gradientStops.keys.toList(),
         colors = gradientStops.values.toList();
 
