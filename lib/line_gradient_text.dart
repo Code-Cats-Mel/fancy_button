@@ -48,7 +48,7 @@ class LinearGradientText extends StatelessWidget {
                 fontStyle: FontStyle.italic,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                height: 1.0,
+                height: 1.2,
               ),
             ),
           if (subtitleText != null)
@@ -58,7 +58,7 @@ class LinearGradientText extends StatelessWidget {
                 fontStyle: FontStyle.italic,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                height: 1.0,
+                height: 1.2,
               ),
             ),
         ],

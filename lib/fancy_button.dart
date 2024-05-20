@@ -4,8 +4,6 @@ import 'package:fancy_button/line_gradient_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'animated_gradient_view.dart';
-import 'gradient_background_view.dart';
 import 'line_gradient_text.dart';
 
 class FancyButton extends StatefulWidget {
@@ -57,32 +55,10 @@ class _FancyButtonState extends State<FancyButton>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        if (false)
-          GradientBackgroundView(
-            {
-              0.0: const Color(0xFFFF3D00),
-              1.0: const Color(0xFFFF00F5),
-            },
-            borderRadius: widget.borderRadius,
-            blurRadius: 8,
-            spreadRadius: 2,
-          ),
-        if (false)
-          AnimatedGradientView({
-            0.0 / 7.0: const Color(0xFFFFB404),
-            1.0 / 7.0: const Color(0xFFFFDF80),
-            2.0 / 7.0: const Color(0xFFFF7E7F),
-            3.0 / 7.0: const Color(0xFFC728FF),
-            4.0 / 7.0: const Color(0xFFF872DC),
-            5.0 / 7.0: const Color(0xFFFFDF80),
-            6.0 / 7.0: const Color(0xFFFFB508),
-          },
-              colorsRepeatNumber: 14.0,
-              blurRadius: 0,
-              borderRadius: widget.borderRadius),
-        if (true)
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Stack(
+        children: [
           AnimatedBuilder(
               animation: _animation,
               builder: (context, child) {
@@ -97,7 +73,6 @@ class _FancyButtonState extends State<FancyButton>
                   },
                 );
               }),
-        if (true)
           AnimatedBuilder(
               animation: _animation,
               builder: (context, child) {
@@ -112,44 +87,46 @@ class _FancyButtonState extends State<FancyButton>
                     3.0 / 7.0: const Color(0xFFC728FF),
                     4.0 / 7.0: const Color(0xFFF872DC),
                     5.0 / 7.0: const Color(0xFFFFDF80),
-                    6.0 / 7.0: const Color(0xFFFFB508),
+                    5.0 / 7.0: const Color(0xFFFFB508),
                   },
                 );
               }),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              if (widget.icon != null)
-                SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: widget.icon,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                if (widget.icon != null)
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: widget.icon,
+                  ),
+                Expanded(
+                  child: AnimatedBuilder(
+                      animation: _animation,
+                      builder: (context, child) {
+                        return LinearGradientText(
+                          widget.titleText,
+                          subtitleText: widget.subtitleText,
+                          gradientStops: {
+                            0.0 / 5.0: const Color(0xFF272727),
+                            1.0 / 5.0: const Color(0xFF272727),
+                            2.0 / 5.0: const Color(0xFFFFFFFF),
+                            3.0 / 5.0: const Color(0xFFFFFFFF),
+                            4.0 / 5.0: const Color(0xFF272727),
+                            5.0 / 5.0: const Color(0xFF272727),
+                          },
+                          gradientScaleX: 14.0,
+                          gradientOffsetX:
+                              (_animation.value) * (1.0 - 1 / 14.0),
+                        );
+                      }),
                 ),
-              Expanded(
-                child: AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      return LinearGradientText(
-                        widget.titleText,
-                        subtitleText: widget.subtitleText,
-                        gradientStops: {
-                          0.0: const Color(0xFF272727),
-                          0.0: const Color(0xFF272727),
-                          1.0: const Color(0xFFFFFFFF),
-                          1.0: const Color(0xFFFFFFFF),
-                          0.0: const Color(0xFF272727),
-                          0.0: const Color(0xFF272727),
-                        },
-                        gradientScaleX: 14.0,
-                        gradientOffsetX: (_animation.value) * (1.0 - 1 / 14.0),
-                      );
-                    }),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
