@@ -1,10 +1,12 @@
 library fancy_button;
 
 import 'package:fancy_button/line_gradient_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_gradient_view.dart';
 import 'gradient_background_view.dart';
+import 'line_gradient_text.dart';
 
 class FancyButton extends StatefulWidget {
   final VoidCallback? onTap;
@@ -124,40 +126,25 @@ class _FancyButtonState extends State<FancyButton>
                   height: 40,
                   child: widget.icon,
                 ),
-              ShaderMask(
-                shaderCallback: (rect) => const LinearGradient(
-                  colors: [
-                    Color(0xFFFF0000),
-                    Color(0xFF0000F5),
-                  ],
-                ).createShader(rect),
-                blendMode: BlendMode.srcATop,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (widget.titleText != null)
-                      Text(
-                        widget.titleText!,
-                        style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w900,
-                          height: 1.0,
-                        ),
-                      ),
-                    if (widget.subtitleText != null)
-                      Text(
-                        widget.subtitleText!,
-                        style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
-                        ),
-                      ),
-                  ],
-                ),
+              Expanded(
+                child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return LinearGradientText(
+                        widget.titleText,
+                        subtitleText: widget.subtitleText,
+                        gradientStops: {
+                          0.0: const Color(0xFF272727),
+                          0.0: const Color(0xFF272727),
+                          1.0: const Color(0xFFFFFFFF),
+                          1.0: const Color(0xFFFFFFFF),
+                          0.0: const Color(0xFF272727),
+                          0.0: const Color(0xFF272727),
+                        },
+                        gradientScaleX: 14.0,
+                        gradientOffsetX: (_animation.value) * (1.0 - 1 / 14.0),
+                      );
+                    }),
               ),
             ],
           ),

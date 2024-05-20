@@ -25,3 +25,20 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  fonts:
+    - family: AvenirNext
+      fonts:
+        #AvenirNext-Regular, weight: 400
+        - asset: fonts/AvenirNext/avenir-next-regular.woff
+        #AvenirNext-Medium, weight: 500
+        - asset: fonts/AvenirNext/avenir-next-medium.woff
+        #AvenirNext-DemiBold, weight: 600
+        - asset: fonts/AvenirNext/avenir-next-demibold.woff
+        #AvenirNext-Bold, weight: 700
+        - asset: fonts/AvenirNext/avenir-next-bold.woff
+        #AvenirNext-Black, weight: 900
+        - asset: fonts/AvenirNext/avenir-next-heavy.woff
+    - family: AvenirNext-HeavyItalic
+      fonts:
+        - asset: fonts/AvenirNext-HeavyItalic.ttf

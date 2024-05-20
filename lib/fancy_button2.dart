@@ -280,7 +280,6 @@ class _FancyButton2State extends State<FancyButton2>
                                         if (widget.titleText != null)
                                           Text(
                                             widget.titleText!,
-                                            // style: heavyItalic20.black,
                                             style: const TextStyle(
                                               fontStyle: FontStyle.italic,
                                               fontSize: 28,

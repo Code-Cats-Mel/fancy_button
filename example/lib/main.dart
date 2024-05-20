@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: SizedBox(
-                  height: 64,
+                  height: 60,
                   child: FancyButton('INCREMENT',
                       subtitleText: 'Increment the counter',
                       onTap: _incrementCounter)),
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: FancyButton2(
-                titleText: 'Increment',
+                titleText: 'INCREMENT',
                 subtitleText: 'Increment the counter',
                 onTap: _incrementCounter,
               ),
