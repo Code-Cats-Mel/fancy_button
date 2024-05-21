@@ -1,4 +1,5 @@
 import 'package:fancy_button/fancy_button.dart';
+import 'package:fancy_button/fancy_icon.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -58,14 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Padding(
-              padding: const EdgeInsets.all(32.0),
+              padding: const EdgeInsets.all(24.0),
               child: SizedBox(
                   height: 60,
                   child: FancyButton('INCREMENT',
                       icon: const SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Icon(Icons.diamond_rounded),
+                        width: 37,
+                        height: 37,
+                        child: FancyIcon(),
                       ),
                       subtitleText: 'Increment the counter',
                       onTap: _incrementCounter)),

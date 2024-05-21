@@ -3,6 +3,7 @@ library fancy_button;
 import 'package:fancy_button/line_gradient_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'line_gradient_text.dart';
 
@@ -95,12 +96,10 @@ class _FancyButtonState extends State<FancyButton>
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
-                if (widget.icon != null)
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: widget.icon,
-                  ),
+                if (widget.icon != null) ...[
+                  widget.icon!,
+                  const SizedBox(width: 6),
+                ],
                 Expanded(
                   child: AnimatedBuilder(
                       animation: _animation,
