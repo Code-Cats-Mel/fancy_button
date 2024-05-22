@@ -36,30 +36,47 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFFCD981),
-            Color(0xFFDF8600),
-          ],
-        ),
-      ),
-      child: Container(
+    final gradientStops = {
+      0.0: const Color(0xFFDF8600),
+      0.5: const Color(0xFFFCD981),
+      1.0: const Color(0xFFDF8600),
+    };
+    const gradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color(0xFFFCD981),
+        Color(0xFFDF8600),
+      ],
+    );
+    return Stack(
+      alignment: Alignment.center,
+      fit: StackFit.expand,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(4),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.black,
-            backgroundBlendMode: BlendMode.srcATop,
+            gradient: gradient,
           ),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        ShaderMask(
+          shaderCallback: (rect) => gradient.createShader(rect),
+          blendMode: BlendMode.srcATop,
           child: const Icon(
-            Icons.star,
+            Icons.diamond,
             color: Colors.white,
-            size: 24,
-          )),
+            size: 20,
+          ),
+        ),
+      ],
     );
   }
 }
