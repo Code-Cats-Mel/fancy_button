@@ -12,6 +12,8 @@ class FancyButton extends StatefulWidget {
   final String titleText;
   final String? subtitleText;
   final Widget? icon;
+  final double? progress;
+  final void Function(double progress)? progressCallback;
 
   final BorderRadius borderRadius;
 
@@ -22,6 +24,8 @@ class FancyButton extends StatefulWidget {
     this.subtitleText,
     this.icon,
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
+    this.progress,
+    this.progressCallback,
   });
 
   @override
@@ -30,22 +34,41 @@ class FancyButton extends StatefulWidget {
 
 class _FancyButtonState extends State<FancyButton>
     with TickerProviderStateMixin {
-  late Animation<double> _animation;
-  late AnimationController _animationController;
+  late AnimationController _animationController =
+      AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
   @override
   void initState() {
     super.initState();
-
     _animationController =
         AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.linear,
-    ));
+    _checkProgress();
+  }
 
-    _animationController.repeat(reverse: true);
+  void _updateProgress() {
+    setState(() {});
+    widget.progressCallback?.call(_animationController.value);
+  }
+
+  @override
+  void didUpdateWidget(FancyButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _checkProgress();
+  }
+
+  void _checkProgress() {
+    if (widget.progress != null) {
+      _animationController.stop();
+      _animationController.removeListener(_updateProgress);
+      setState(() {
+        _animationController.value = widget.progress!;
+      });
+    } else if (widget.progress == null && !_animationController.isAnimating) {
+      _animationController.addListener(_updateProgress);
+      _animationController.repeat(reverse: true);
+    }
   }
 
   @override
@@ -56,42 +79,36 @@ class _FancyButtonState extends State<FancyButton>
 
   @override
   Widget build(BuildContext context) {
+    final progress = _animationController.value;
+
     return GestureDetector(
       onTap: widget.onTap,
       child: Stack(
         children: [
-          AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return LinearGradientView(
-                  borderRadius: widget.borderRadius,
-                  blurRadius: 8,
-                  spreadRadius: 2,
-                  gradientRotation: _animation.value * 3.14 * 2,
-                  gradientStops: {
-                    0.0: const Color(0xFFFF3D00),
-                    1.0: const Color(0xFFFF00F5),
-                  },
-                );
-              }),
-          AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return LinearGradientView(
-                  borderRadius: widget.borderRadius,
-                  gradientScaleX: 14,
-                  gradientOffsetX: (_animation.value) * (1.0 - 1 / 14.0),
-                  gradientStops: {
-                    0.0 / 6.0: const Color(0xFFFFB404),
-                    1.0 / 6.0: const Color(0xFFFFDF80),
-                    2.0 / 6.0: const Color(0xFFFF7E7F),
-                    3.0 / 6.0: const Color(0xFFC728FF),
-                    4.0 / 6.0: const Color(0xFFF872DC),
-                    5.0 / 6.0: const Color(0xFFFFDF80),
-                    6.0 / 6.0: const Color(0xFFFFB508),
-                  },
-                );
-              }),
+          LinearGradientView(
+            borderRadius: widget.borderRadius,
+            blurRadius: 8,
+            spreadRadius: 2,
+            gradientRotation: progress * 3.14 * 2,
+            gradientStops: {
+              0.0: const Color(0xFFFF3D00),
+              1.0: const Color(0xFFFF00F5),
+            },
+          ),
+          LinearGradientView(
+            borderRadius: widget.borderRadius,
+            gradientScaleX: 14,
+            gradientOffsetX: progress * (1.0 - 1 / 14.0),
+            gradientStops: {
+              0.0 / 6.0: const Color(0xFFFFB404),
+              1.0 / 6.0: const Color(0xFFFFDF80),
+              2.0 / 6.0: const Color(0xFFFF7E7F),
+              3.0 / 6.0: const Color(0xFFC728FF),
+              4.0 / 6.0: const Color(0xFFF872DC),
+              5.0 / 6.0: const Color(0xFFFFDF80),
+              6.0 / 6.0: const Color(0xFFFFB508),
+            },
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -101,25 +118,20 @@ class _FancyButtonState extends State<FancyButton>
                   const SizedBox(width: 6),
                 ],
                 Expanded(
-                  child: AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return LinearGradientText(
-                          widget.titleText,
-                          subtitleText: widget.subtitleText,
-                          gradientStops: {
-                            0.0 / 5.0: const Color(0xFF272727),
-                            1.0 / 5.0: const Color(0xFF272727),
-                            2.0 / 5.0: const Color(0xFFFFFFFF),
-                            3.0 / 5.0: const Color(0xFFFFFFFF),
-                            4.0 / 5.0: const Color(0xFF272727),
-                            5.0 / 5.0: const Color(0xFF272727),
-                          },
-                          gradientScaleX: 14.0,
-                          gradientOffsetX:
-                              (_animation.value) * (1.0 - 1 / 14.0),
-                        );
-                      }),
+                  child: LinearGradientText(
+                    widget.titleText,
+                    subtitleText: widget.subtitleText,
+                    gradientStops: {
+                      0.0 / 5.0: const Color(0xFF272727),
+                      1.0 / 5.0: const Color(0xFF272727),
+                      2.0 / 5.0: const Color(0xFFFFFFFF),
+                      3.0 / 5.0: const Color(0xFFFFFFFF),
+                      4.0 / 5.0: const Color(0xFF272727),
+                      5.0 / 5.0: const Color(0xFF272727),
+                    },
+                    gradientScaleX: 14.0,
+                    gradientOffsetX: progress * (1.0 - 1 / 14.0),
+                  ),
                 ),
               ],
             ),

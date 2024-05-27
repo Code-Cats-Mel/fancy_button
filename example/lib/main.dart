@@ -33,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  double _progress = 0;
+  bool autoPlay = true;
 
   void _incrementCounter() {
     setState(() {
@@ -62,15 +64,64 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(24.0),
               child: SizedBox(
                   height: 60,
-                  child: FancyButton('INCREMENT',
-                      icon: const SizedBox(
-                        width: 37,
-                        height: 37,
-                        child: FancyIcon(),
+                  child: FancyButton(
+                    'INCREMENT',
+                    icon: SizedBox(
+                      width: 37,
+                      height: 37,
+                      child: FancyIcon(
+                        progress: autoPlay ? null : _progress,
                       ),
-                      subtitleText: 'Increment the counter',
-                      onTap: _incrementCounter)),
-            )
+                    ),
+                    subtitleText: 'Increment the counter',
+                    onTap: _incrementCounter,
+                    progress: autoPlay ? null : _progress,
+                    progressCallback: (progress) {
+                      if (autoPlay) {
+                        setState(() {
+                          _progress = progress;
+                        });
+                      }
+                    },
+                  )),
+            ),
+            Slider(
+              value: _progress,
+              onChanged: (value) {
+                setState(() {
+                  _progress = value;
+                });
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.pause,
+                    color: !autoPlay ? Colors.grey : Colors.black87,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      autoPlay = false;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.play_arrow,
+                    color: autoPlay ? Colors.grey : Colors.black87,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      setState(() {
+                        autoPlay = true;
+                      });
+                    });
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

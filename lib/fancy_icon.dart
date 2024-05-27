@@ -3,14 +3,15 @@ library fancy_button;
 import 'package:flutter/material.dart';
 
 class FancyIcon extends StatefulWidget {
-  const FancyIcon({super.key});
+  final double? progress;
+
+  const FancyIcon({super.key, this.progress});
 
   @override
   State<FancyIcon> createState() => _FancyIconState();
 }
 
 class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
-  late Animation<double> _animation;
   late AnimationController _animationController;
 
   @override
@@ -20,12 +21,22 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
     _animationController =
         AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.linear,
-    ));
+    _checkProgress();
+  }
 
-    _animationController.repeat(reverse: true);
+  @override
+  void didUpdateWidget(FancyIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _checkProgress();
+  }
+
+  void _checkProgress() {
+    if (widget.progress != null) {
+      _animationController.value = widget.progress!;
+    } else if (widget.progress == null && !_animationController.isAnimating) {
+      _animationController.repeat(reverse: true);
+    }
   }
 
   @override
@@ -50,11 +61,12 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
       fit: StackFit.expand,
       children: [
         AnimatedBuilder(
-            animation: _animation,
+            animation: _animationController,
             builder: (context, _) {
               return Shimmer(
-                slidePercent: (_animation.value < 0.1 || _animation.value > 0.9)
-                    ? (_animation.value * 10) % 1.0
+                slidePercent: (_animationController.value < 0.1 ||
+                        _animationController.value > 0.9)
+                    ? (_animationController.value * 10) % 1.0
                     : 0,
                 child: Container(
                   decoration: const BoxDecoration(
