@@ -1,10 +1,8 @@
+## Feature
 
-## Features
-
-![Fancy button](https://github.com/Code-Cats-Mel/fancy_button/fancy_button.gif)
+<img width="500" src=https://raw.githubusercontent.com/Code-Cats-Mel/fancy_button/main/fancy_button.gif />
 
 ## Example
 
-![Fancy button](https://github.com/Code-Cats-Mel/fancy_button/fancy_button_example.gif)
-
+<img width="500" src=https://raw.githubusercontent.com/Code-Cats-Mel/fancy_button/main/fancy_button_example.gif />
 

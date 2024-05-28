@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Fancy button Demo'),
     );
   }
 }
@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const SizedBox(height: 24),
                 const Text(
                   'You have pushed the button this many times:',
                 ),
@@ -149,7 +150,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           expanded = !expanded;
                           if (expanded) {
                             _animationController.forward();
-                            // _animationController
                           } else {
                             _animationController.reverse();
                           }
@@ -166,6 +166,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     });
                   },
                 ),
+                const Spacer(),
               ],
             ),
           );
