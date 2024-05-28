@@ -14,6 +14,7 @@ class FancyButton extends StatefulWidget {
   final Widget? icon;
   final double? progress;
   final void Function(double progress)? progressCallback;
+  final (bool, bool, bool, bool) debugOptions;
 
   final BorderRadius borderRadius;
 
@@ -26,6 +27,7 @@ class FancyButton extends StatefulWidget {
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
     this.progress,
     this.progressCallback,
+    this.debugOptions = const (true, true, true, true),
   });
 
   @override
@@ -85,52 +87,61 @@ class _FancyButtonState extends State<FancyButton>
       onTap: widget.onTap,
       child: Stack(
         children: [
-          LinearGradientView(
-            borderRadius: widget.borderRadius,
-            blurRadius: 8,
-            spreadRadius: 2,
-            gradientRotation: progress * 3.14 * 2,
-            gradientStops: {
-              0.0: const Color(0xFFFF3D00),
-              1.0: const Color(0xFFFF00F5),
-            },
+          Visibility(
+            visible: widget.debugOptions.$1,
+            child: LinearGradientView(
+              borderRadius: widget.borderRadius,
+              blurRadius: 8,
+              spreadRadius: 2,
+              gradientRotation: progress * 3.14 * 2,
+              gradientStops: {
+                0.0: const Color(0xFFFF3D00),
+                1.0: const Color(0xFFFF00F5),
+              },
+            ),
           ),
-          LinearGradientView(
-            borderRadius: widget.borderRadius,
-            gradientScaleX: 14,
-            gradientOffsetX: progress * (1.0 - 1 / 14.0),
-            gradientStops: {
-              0.0 / 6.0: const Color(0xFFFFB404),
-              1.0 / 6.0: const Color(0xFFFFDF80),
-              2.0 / 6.0: const Color(0xFFFF7E7F),
-              3.0 / 6.0: const Color(0xFFC728FF),
-              4.0 / 6.0: const Color(0xFFF872DC),
-              5.0 / 6.0: const Color(0xFFFFDF80),
-              6.0 / 6.0: const Color(0xFFFFB508),
-            },
-          ),
+          if (widget.debugOptions.$2)
+            LinearGradientView(
+              borderRadius: widget.borderRadius,
+              gradientScaleX: 14,
+              gradientOffsetX: progress * (1.0 - 1 / 14.0),
+              gradientStops: {
+                0.0 / 6.0: const Color(0xFFFFB404),
+                1.0 / 6.0: const Color(0xFFFFDF80),
+                2.0 / 6.0: const Color(0xFFFF7E7F),
+                3.0 / 6.0: const Color(0xFFC728FF),
+                4.0 / 6.0: const Color(0xFFF872DC),
+                5.0 / 6.0: const Color(0xFFFFDF80),
+                6.0 / 6.0: const Color(0xFFFFB508),
+              },
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
                 if (widget.icon != null) ...[
-                  widget.icon!,
+                  Opacity(
+                      opacity: widget.debugOptions.$3 ? 1 : 0.0,
+                      child: widget.icon!),
                   const SizedBox(width: 6),
                 ],
                 Expanded(
-                  child: LinearGradientText(
-                    widget.titleText,
-                    subtitleText: widget.subtitleText,
-                    gradientStops: {
-                      0.0 / 5.0: const Color(0xFF272727),
-                      1.0 / 5.0: const Color(0xFF272727),
-                      2.0 / 5.0: const Color(0xFFFFFFFF),
-                      3.0 / 5.0: const Color(0xFFFFFFFF),
-                      4.0 / 5.0: const Color(0xFF272727),
-                      5.0 / 5.0: const Color(0xFF272727),
-                    },
-                    gradientScaleX: 14.0,
-                    gradientOffsetX: progress * (1.0 - 1 / 14.0),
+                  child: Opacity(
+                    opacity: widget.debugOptions.$4 ? 1 : 0.0,
+                    child: LinearGradientText(
+                      widget.titleText,
+                      subtitleText: widget.subtitleText,
+                      gradientStops: {
+                        0.0 / 5.0: const Color(0xFF272727),
+                        1.0 / 5.0: const Color(0xFF272727),
+                        2.0 / 5.0: const Color(0xFFFFFFFF),
+                        3.0 / 5.0: const Color(0xFFFFFFFF),
+                        4.0 / 5.0: const Color(0xFF272727),
+                        5.0 / 5.0: const Color(0xFF272727),
+                      },
+                      gradientScaleX: 14.0,
+                      gradientOffsetX: progress * (1.0 - 1 / 14.0),
+                    ),
                   ),
                 ),
               ],
