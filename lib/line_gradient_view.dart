@@ -74,8 +74,8 @@ class GradientShadowPainter extends CustomPainter {
     final Rect rect = (Offset.zero & size).inflate(spreadRadius ?? 0.0);
 
     final paint = Paint()
-      ..shader = gradient.createShader(Rect.fromLTWH(
-          rect.left, rect.top, rect.width * scaleX, rect.height * scaleY));
+      ..shader = gradient.createShader(
+          Rect.fromLTWH(rect.left, rect.top, rect.width * scaleX, rect.height * scaleY));
 
     if (shadow != null) {
       paint.maskFilter = MaskFilter.blur(BlurStyle.normal, shadow!.blurSigma);
@@ -91,6 +91,7 @@ class GradientShadowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(GradientShadowPainter oldDelegate) => false;
+
   @override
   bool shouldRebuildSemantics(GradientShadowPainter oldDelegate) => false;
 }

@@ -18,8 +18,7 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 10), vsync: this);
+    _animationController = AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
     _checkProgress();
   }
@@ -63,9 +62,8 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
         AnimatedBuilder(
             animation: _animationController,
             builder: (context, _) {
-              return Shimmer(
-                slidePercent: (_animationController.value < 0.1 ||
-                        _animationController.value > 0.9)
+              return Shine(
+                slidePercent: (_animationController.value < 0.1 || _animationController.value > 0.9)
                     ? (_animationController.value * 10) % 1.0
                     : 0,
                 child: Container(
@@ -91,7 +89,7 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
             shaderCallback: (rect) => gradient.createShader(rect),
             blendMode: BlendMode.srcATop,
             child: const Icon(
-              Icons.diamond,
+              Icons.savings_outlined,
               color: Colors.white,
               size: 20,
             ),
@@ -101,23 +99,22 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
   }
 }
 
-class Shimmer extends StatefulWidget {
+class Shine extends StatefulWidget {
   final Widget child;
   final double slidePercent;
 
-  const Shimmer({required this.child, this.slidePercent = 0.0, super.key});
+  const Shine({required this.child, this.slidePercent = 0.0, super.key});
 
   @override
-  State<Shimmer> createState() => _ShimmerState();
+  State<Shine> createState() => _ShineState();
 }
 
-class _ShimmerState extends State<Shimmer> {
-  bool get isSized =>
-      (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
+class _ShineState extends State<Shine> {
+  bool get isSized => (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
 
   Size get size => (context.findRenderObject() as RenderBox).size;
 
-  static const _shimmerGradient = LinearGradient(
+  static const _shineGradient = LinearGradient(
     colors: [
       Color(0x00EBEBF4),
       Color(0xFFF4F4F4),
@@ -138,7 +135,7 @@ class _ShimmerState extends State<Shimmer> {
     return ShaderMask(
       blendMode: BlendMode.srcATop,
       shaderCallback: (bounds) {
-        return _shimmerGradient.createShader(
+        return _shineGradient.createShader(
           Rect.fromLTWH(
             (widget.slidePercent * 1.2 - 0.6) * size.width,
             (widget.slidePercent * 1.2 - 0.6) * size.height,

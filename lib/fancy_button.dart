@@ -34,16 +34,14 @@ class FancyButton extends StatefulWidget {
   State<FancyButton> createState() => _FancyButtonState();
 }
 
-class _FancyButtonState extends State<FancyButton>
-    with TickerProviderStateMixin {
+class _FancyButtonState extends State<FancyButton> with TickerProviderStateMixin {
   late AnimationController _animationController =
       AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 10), vsync: this);
+    _animationController = AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
     _checkProgress();
   }
@@ -92,11 +90,11 @@ class _FancyButtonState extends State<FancyButton>
             child: LinearGradientView(
               borderRadius: widget.borderRadius,
               blurRadius: 8,
-              spreadRadius: 2,
-              gradientRotation: progress * 3.14 * 2,
+              spreadRadius: 4,
+              gradientRotation: progress * 3.14 * 6,
               gradientStops: {
-                0.0: const Color(0xFFFF3D00),
-                1.0: const Color(0xFFFF00F5),
+                0.0: const Color(0xFF007BFF),
+                1.0: const Color(0xFF39FF14),
               },
             ),
           ),
@@ -120,9 +118,7 @@ class _FancyButtonState extends State<FancyButton>
             child: Row(
               children: [
                 if (widget.icon != null) ...[
-                  Opacity(
-                      opacity: widget.debugOptions.$3 ? 1 : 0.0,
-                      child: widget.icon!),
+                  Opacity(opacity: widget.debugOptions.$3 ? 1 : 0.0, child: widget.icon!),
                   const SizedBox(width: 6),
                 ],
                 Expanded(

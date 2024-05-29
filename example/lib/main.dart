@@ -32,7 +32,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  int _counter = 0;
   double _progress = 0;
   bool autoPlay = true;
   bool expanded = false;
@@ -41,12 +40,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   late final AnimationController _animationController =
       AnimationController(duration: const Duration(seconds: 1), vsync: this);
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +57,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 24),
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
                 Stack(
                   children: [
                     MyButton(
@@ -90,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     MyButton(
                       _progress,
                       autoPlay,
-                      onTap: _incrementCounter,
+                      onTap: () {},
                       progressCallback: (progress) {
                         if (autoPlay) {
                           setState(() {
@@ -208,7 +194,7 @@ class MyButton extends StatelessWidget {
               ..rotateX(-transformY),
             alignment: FractionalOffset.center,
             child: FancyButton(
-              'INCREMENT',
+              'SHINING TITLE TEXT',
               icon: SizedBox(
                 width: 37,
                 height: 37,
@@ -216,7 +202,7 @@ class MyButton extends StatelessWidget {
                   progress: autoPlay ? null : progress,
                 ),
               ),
-              subtitleText: 'Increment the counter',
+              subtitleText: 'Shining subtitle text',
               onTap: onTap,
               progress: autoPlay ? null : progress,
               progressCallback: progressCallback,
