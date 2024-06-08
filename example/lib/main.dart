@@ -1,5 +1,7 @@
+import 'package:example/theme.dart';
 import 'package:fancy_button/fancy_button.dart';
 import 'package:fancy_button/fancy_icon.dart';
+import 'package:fancy_button/fancy_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -194,15 +196,38 @@ class MyButton extends StatelessWidget {
               ..rotateX(-transformY),
             alignment: FractionalOffset.center,
             child: FancyButton(
-              'SHINING TITLE TEXT',
+              const Text(
+                'SHINING TITLE TEXT',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  height: 1.2,
+                ),
+              ),
+              FancyButtonTheme.elite,
+              subtitle: const Text(
+                'Shining subtitle text',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  height: 1.2,
+                ),
+              ),
               icon: SizedBox(
                 width: 37,
                 height: 37,
                 child: FancyIcon(
+                  const Icon(
+                    Icons.savings_outlined,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  iconGradient,
                   progress: autoPlay ? null : progress,
                 ),
               ),
-              subtitleText: 'Shining subtitle text',
               onTap: onTap,
               progress: autoPlay ? null : progress,
               progressCallback: progressCallback,

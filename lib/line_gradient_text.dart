@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'gradient_offset_rotation.dart';
 
 class LinearGradientText extends StatelessWidget {
-  final String titleText;
-  final String? subtitleText;
-  final Map<double, Color> gradientStops;
+  final Widget title;
+  final Widget? subtitle;
+  final Gradient gradient;
 
   final double? gradientScaleX;
   final double? gradientScaleY;
@@ -13,9 +13,9 @@ class LinearGradientText extends StatelessWidget {
   final double? gradientOffsetY;
 
   const LinearGradientText(
-    this.titleText, {
-    required this.gradientStops,
-    this.subtitleText,
+    this.title, {
+    required this.gradient,
+    this.subtitle,
     this.gradientScaleX,
     this.gradientScaleY,
     this.gradientOffsetX,
@@ -27,8 +27,8 @@ class LinearGradientText extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
-        colors: gradientStops.values.toList(),
-        stops: gradientStops.keys.toList(),
+        colors: gradient.colors,
+        stops: gradient.stops,
         transform:
             GradientOffsetRotation.from(gradientOffsetX, gradientScaleY, null),
       ).createShader(Rect.fromLTWH(
@@ -41,26 +41,8 @@ class LinearGradientText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (true)
-            Text(
-              titleText,
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                height: 1.2,
-              ),
-            ),
-          if (subtitleText != null)
-            Text(
-              subtitleText!,
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                height: 1.2,
-              ),
-            ),
+          title,
+          if (subtitle != null) subtitle!,
         ],
       ),
     );

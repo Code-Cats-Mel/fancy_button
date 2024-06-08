@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 class FancyIcon extends StatefulWidget {
   final double? progress;
+  final Gradient gradient;
+  final Widget icon;
 
-  const FancyIcon({super.key, this.progress});
+  const FancyIcon(this.icon, this.gradient, {super.key, this.progress});
 
   @override
   State<FancyIcon> createState() => _FancyIconState();
@@ -18,7 +20,8 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(duration: const Duration(seconds: 10), vsync: this);
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
     _checkProgress();
   }
@@ -46,14 +49,6 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    const gradient = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [
-        Color(0xFFFCD981),
-        Color(0xFFDF8600),
-      ],
-    );
     return Stack(
       clipBehavior: Clip.antiAlias,
       alignment: Alignment.center,
@@ -63,13 +58,14 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
             animation: _animationController,
             builder: (context, _) {
               return Shine(
-                slidePercent: (_animationController.value < 0.1 || _animationController.value > 0.9)
+                slidePercent: (_animationController.value < 0.1 ||
+                        _animationController.value > 0.9)
                     ? (_animationController.value * 10) % 1.0
                     : 0,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: gradient,
+                    gradient: widget.gradient,
                   ),
                 ),
               );
@@ -86,13 +82,9 @@ class _FancyIconState extends State<FancyIcon> with TickerProviderStateMixin {
           ),
         if (true)
           ShaderMask(
-            shaderCallback: (rect) => gradient.createShader(rect),
+            shaderCallback: (rect) => widget.gradient.createShader(rect),
             blendMode: BlendMode.srcATop,
-            child: const Icon(
-              Icons.savings_outlined,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: widget.icon,
           ),
       ],
     );
@@ -110,7 +102,8 @@ class Shine extends StatefulWidget {
 }
 
 class _ShineState extends State<Shine> {
-  bool get isSized => (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
+  bool get isSized =>
+      (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
 
   Size get size => (context.findRenderObject() as RenderBox).size;
 

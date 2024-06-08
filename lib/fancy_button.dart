@@ -5,12 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'fancy_theme.dart';
 import 'line_gradient_text.dart';
 
 class FancyButton extends StatefulWidget {
   final VoidCallback? onTap;
-  final String titleText;
-  final String? subtitleText;
+  final Widget title;
+  final Widget? subtitle;
   final Widget? icon;
   final double? progress;
   final void Function(double progress)? progressCallback;
@@ -18,11 +19,14 @@ class FancyButton extends StatefulWidget {
 
   final BorderRadius borderRadius;
 
+  final FancyButtonTheme theme;
+
   const FancyButton(
-    this.titleText, {
+    this.title,
+    this.theme, {
     super.key,
     this.onTap,
-    this.subtitleText,
+    this.subtitle,
     this.icon,
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
     this.progress,
@@ -34,14 +38,16 @@ class FancyButton extends StatefulWidget {
   State<FancyButton> createState() => _FancyButtonState();
 }
 
-class _FancyButtonState extends State<FancyButton> with TickerProviderStateMixin {
+class _FancyButtonState extends State<FancyButton>
+    with TickerProviderStateMixin {
   late AnimationController _animationController =
       AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(duration: const Duration(seconds: 10), vsync: this);
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 10), vsync: this);
 
     _checkProgress();
   }
@@ -89,54 +95,42 @@ class _FancyButtonState extends State<FancyButton> with TickerProviderStateMixin
             visible: widget.debugOptions.$1,
             child: LinearGradientView(
               borderRadius: widget.borderRadius,
-              blurRadius: 8,
-              spreadRadius: 4,
-              gradientRotation: progress * 3.14 * 6,
-              gradientStops: {
-                0.0: const Color(0xFF007BFF),
-                1.0: const Color(0xFF39FF14),
-              },
+              blurRadius: widget.theme.borderRadius,
+              spreadRadius: widget.theme.spreadRadius,
+              gradientRotation: progress *
+                  6.28 *
+                  widget.theme.backgroundShadowRotationSpeedFactor,
+              gradient: widget.theme.backgroundShadowGradient,
             ),
           ),
           if (widget.debugOptions.$2)
             LinearGradientView(
               borderRadius: widget.borderRadius,
-              gradientScaleX: 14,
-              gradientOffsetX: progress * (1.0 - 1 / 14.0),
-              gradientStops: {
-                0.0 / 6.0: const Color(0xFFFFB404),
-                1.0 / 6.0: const Color(0xFFFFDF80),
-                2.0 / 6.0: const Color(0xFFFF7E7F),
-                3.0 / 6.0: const Color(0xFFC728FF),
-                4.0 / 6.0: const Color(0xFFF872DC),
-                5.0 / 6.0: const Color(0xFFFFDF80),
-                6.0 / 6.0: const Color(0xFFFFB508),
-              },
+              gradientScaleX: widget.theme.gradientScaleX,
+              gradientOffsetX:
+                  progress * (1.0 - 1 / widget.theme.gradientScaleX),
+              gradient: widget.theme.backgroundGradient,
             ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
                 if (widget.icon != null) ...[
-                  Opacity(opacity: widget.debugOptions.$3 ? 1 : 0.0, child: widget.icon!),
+                  Opacity(
+                      opacity: widget.debugOptions.$3 ? 1 : 0.0,
+                      child: widget.icon!),
                   const SizedBox(width: 6),
                 ],
                 Expanded(
                   child: Opacity(
                     opacity: widget.debugOptions.$4 ? 1 : 0.0,
                     child: LinearGradientText(
-                      widget.titleText,
-                      subtitleText: widget.subtitleText,
-                      gradientStops: {
-                        0.0 / 5.0: const Color(0xFF272727),
-                        1.0 / 5.0: const Color(0xFF272727),
-                        2.0 / 5.0: const Color(0xFFFFFFFF),
-                        3.0 / 5.0: const Color(0xFFFFFFFF),
-                        4.0 / 5.0: const Color(0xFF272727),
-                        5.0 / 5.0: const Color(0xFF272727),
-                      },
-                      gradientScaleX: 14.0,
-                      gradientOffsetX: progress * (1.0 - 1 / 14.0),
+                      widget.title,
+                      subtitle: widget.subtitle,
+                      gradient: widget.theme.textGradient,
+                      gradientScaleX: widget.theme.gradientScaleX,
+                      gradientOffsetX:
+                          progress * (1.0 - 1 / widget.theme.gradientScaleX),
                     ),
                   ),
                 ),

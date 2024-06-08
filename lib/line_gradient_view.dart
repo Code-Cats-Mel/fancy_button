@@ -6,7 +6,7 @@ class LinearGradientView extends StatelessWidget {
   final BorderRadius borderRadius;
   final double blurRadius;
   final double spreadRadius;
-  final Map<double, Color> gradientStops;
+  final Gradient gradient;
   final double? gradientRotation;
   final double? gradientScaleX;
   final double? gradientScaleY;
@@ -15,7 +15,7 @@ class LinearGradientView extends StatelessWidget {
 
   const LinearGradientView({
     super.key,
-    required this.gradientStops,
+    required this.gradient,
     this.borderRadius = const BorderRadius.all(Radius.circular(0)),
     this.blurRadius = 0.0,
     this.spreadRadius = 0.0,
@@ -30,7 +30,7 @@ class LinearGradientView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: GradientShadowPainter(
-        gradientStops,
+        gradient,
         borderRadius: borderRadius,
         blurRadius: blurRadius,
         spreadRadius: spreadRadius,
@@ -54,7 +54,7 @@ class GradientShadowPainter extends CustomPainter {
   final double scaleY;
 
   GradientShadowPainter(
-    Map<double, Color> gradientStops, {
+    Gradient gradient, {
     double? blurRadius,
     this.spreadRadius,
     this.borderRadius,
@@ -64,8 +64,8 @@ class GradientShadowPainter extends CustomPainter {
     double? offsetY,
     double? rotation,
   })  : gradient = LinearGradient(
-            colors: gradientStops.values.toList(),
-            stops: gradientStops.keys.toList(),
+            colors: gradient.colors,
+            stops: gradient.stops,
             transform: GradientOffsetRotation.from(offsetX, offsetY, rotation)),
         shadow = blurRadius != null ? Shadow(blurRadius: blurRadius) : null;
 
@@ -74,8 +74,8 @@ class GradientShadowPainter extends CustomPainter {
     final Rect rect = (Offset.zero & size).inflate(spreadRadius ?? 0.0);
 
     final paint = Paint()
-      ..shader = gradient.createShader(
-          Rect.fromLTWH(rect.left, rect.top, rect.width * scaleX, rect.height * scaleY));
+      ..shader = gradient.createShader(Rect.fromLTWH(
+          rect.left, rect.top, rect.width * scaleX, rect.height * scaleY));
 
     if (shadow != null) {
       paint.maskFilter = MaskFilter.blur(BlurStyle.normal, shadow!.blurSigma);
