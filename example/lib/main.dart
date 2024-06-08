@@ -1,7 +1,7 @@
 import 'package:example/theme.dart';
-import 'package:fancy_button/fancy_button.dart';
-import 'package:fancy_button/fancy_icon.dart';
-import 'package:fancy_button/fancy_theme.dart';
+import 'package:fancy_gradient_button/fancy_button.dart';
+import 'package:fancy_gradient_button/fancy_icon.dart';
+import 'package:fancy_gradient_button/fancy_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {

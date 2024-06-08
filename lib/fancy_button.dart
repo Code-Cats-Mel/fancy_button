@@ -1,10 +1,10 @@
-library fancy_button;
+library fancy_gradient_button;
 
-import 'package:fancy_button/line_gradient_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'line_gradient_view.dart';
 import 'fancy_theme.dart';
 import 'line_gradient_text.dart';
 

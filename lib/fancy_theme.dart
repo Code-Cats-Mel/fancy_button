@@ -1,4 +1,4 @@
-library fancy_button;
+library fancy_gradient_button;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

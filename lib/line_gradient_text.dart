@@ -1,3 +1,5 @@
+library fancy_gradient_button;
+
 import 'package:flutter/material.dart';
 
 import 'gradient_offset_rotation.dart';
