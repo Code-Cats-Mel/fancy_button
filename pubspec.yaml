@@ -1,7 +1,7 @@
 name: fancy_button
 description: "Fancy button"
 version: 0.0.1
-homepage: 
+homepage: https://github.com/Code-Cats-Mel/fancy_button
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
